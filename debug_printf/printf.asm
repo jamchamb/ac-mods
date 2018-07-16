@@ -57,11 +57,22 @@ start:
     addi r3, r3, (START_ADDR+startmsg)@l
     bl osReport
 	
+	; Get message address
+	lis r4, (START_ADDR+helloworld)@ha
+	ori r4, r4, (START_ADDR+helloworld)@l
+	
+	; Update message color
+	lis r6, COMMON_DATA@h
+	ori r6, r6, COMMON_DATA@l
+	addis r6, r6, 2
+	lbz r7, 0x6120(r6)
+	clrlwi. r7, r7, 28
+	stb r7, 0x2(r4)
+
 	; Copy hello world message to debug2 buffer
 	lis r3, DEBUG2_BUF@ha
 	ori r3, r3, DEBUG2_BUF@l
-	lis r4, (START_ADDR+helloworld)@ha
-	ori r4, r4, (START_ADDR+helloworld)@l
+
 	li  r5, 17
 	bl memcpy
 	
@@ -109,7 +120,7 @@ endmsg:
 	.string "***ENDING DEBUG_PRINTF CODE***\0"
 	
 helloworld:
-	.string "\x01\x01\x03Hello world!\0"
+	.string "\x0C\x0C\x07Hello world!\0"
 
 .data
 HOOK_LOC = 0x80404E20
@@ -126,3 +137,6 @@ DEBUG_PRINT_FLAG = 0x81294010
 DEBUG2_BUF = 0x81294018
 ;DEBUG2_COUNT = 0x81166234
 DEBUG2_COUNT = 0x81294014
+
+; Dolphin addr of common_data
+COMMON_DATA = 0x81266400
