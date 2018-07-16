@@ -9,22 +9,30 @@ osReport:
         ; need a minimum of 8 bytes of new stack.
         ; don't store within the first 8 bytes because a called
         ; function may overwrite that area.
-        stwu      r1, -0x8(r1)
+        stwu      r1, -0xC(r1)
         mfspr     r0, LR
         ; save LR at offset +4 of new stack
-        stw       r0, 0xC(r1)
+        stw       r0, 0x10(r1)
+		; save register that will be used to branch
+		stw       r8, 0x8(r1)
 
+		; this always appears before OSReport
         crclr     4*cr1+eq
-        ; need offset to OSReport for branch instruction
-        ; START_ADDR + 20 is the current position
-        bl        OS_REPORT - (START_ADDR+20)
-        
+
+		lis r8,OS_REPORT@h
+		ori r8, r8, OS_REPORT@l
+		mtctr r8
+		bctrl
+
+		; restore register used to branch
+		lwz       r8, 0x8(r1)
+
         ; epilogue
         ; restore LR
-        lwz       r0, 0xC(r1)
+        lwz       r0, 0x10(r1)
         mtspr     LR, r0
         ; shrink stack
-        addi      r1, r1, 0x8
+        addi      r1, r1, 0xC
         ; return to caller
         blr
 
@@ -47,8 +55,8 @@ start:
         blr
 
 msg:
-    .string "Hello, world!\0"
-        
+        .string "Hello, world!\0"
+
 .data
 START_ADDR = 0x80002000
 OS_REPORT = 0x8005A750
