@@ -13,19 +13,19 @@ osReport:
         mfspr     r0, LR
         ; save LR at offset +4 of new stack
         stw       r0, 0x10(r1)
-		; save register that will be used to branch
-		stw       r8, 0x8(r1)
+        ; save register that will be used to branch
+        stw       r8, 0x8(r1)
 
-		; this always appears before OSReport
+        ; this always appears before OSReport
         crclr     4*cr1+eq
 
-		lis r8,OS_REPORT@h
-		ori r8, r8, OS_REPORT@l
-		mtctr r8
-		bctrl
+        lis       r8, OS_REPORT@h
+        ori       r8, r8, OS_REPORT@l
+        mtctr     r8
+        bctrl
 
-		; restore register used to branch
-		lwz       r8, 0x8(r1)
+        ; restore register used to branch
+        lwz       r8, 0x8(r1)
 
         ; epilogue
         ; restore LR
@@ -44,9 +44,9 @@ start:
         stw       r0, 0x24(r1)
 
         ; call OSReport(msg)
-        lis r3,      (START_ADDR+msg)@ha
-        addi r3, r3, (START_ADDR+msg)@l
-        bl osReport
+        lis       r3, (START_ADDR+msg)@ha
+        addi      r3, r3, (START_ADDR+msg)@l
+        bl        osReport
 
         ; epilogue
         lwz       r0, 0x24(r1)
