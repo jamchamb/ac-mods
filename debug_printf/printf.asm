@@ -61,7 +61,7 @@ start:
     lis r4, (START_ADDR+helloworld)@ha
     ori r4, r4, (START_ADDR+helloworld)@l
     
-    ; Update message color
+    ; Update message color using current time second value
     lis r6, COMMON_DATA@h
     ori r6, r6, COMMON_DATA@l
     addis r6, r6, 2
@@ -89,7 +89,7 @@ start:
     ori r4, r4, 2
     stw r4, 0(r3)
         
-        ; outro log message
+    ; outro log message
     lis r3,      (START_ADDR+endmsg)@ha
     addi r3, r3, (START_ADDR+endmsg)@l
     bl osReport
