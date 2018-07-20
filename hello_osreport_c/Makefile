@@ -9,6 +9,10 @@ endif
 
 include $(DEVKITPPC)/gamecube_rules
 
+%.patch: %.dol
+	@echo "extracting code from $(notdir $<)"
+	dd if=$< of=$@ bs=1 skip=8448
+
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
 # BUILD is the directory where object files & intermediate files will be placed
@@ -105,7 +109,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol
+	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol $(OUTPUT).patch
 #---------------------------------------------------------------------------------
 run:	
 	$(DEVKITPRO)/emulators/gcube/gcube $(OUTPUT).dol
@@ -121,6 +125,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
+$(OUTPUT).patch: $(OUTPUT).dol
 $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
 
