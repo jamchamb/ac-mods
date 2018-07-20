@@ -1,3 +1,6 @@
+# Get directory Makefile runs from
+ROOT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+
 #---------------------------------------------------------------------------------
 # Clear the implicit built in rules
 #---------------------------------------------------------------------------------
@@ -32,7 +35,7 @@ INCLUDES	:=
 CFLAGS		= -g -Og -Wall $(MACHDEP) $(INCLUDE) -ffunction-sections -fno-builtin -nodefaultlibs -nostdlib -nostartfiles
 CXXFLAGS	= $(CFLAGS)
 
-LDFLAGS		= -g $(MACHDEP) -Wl,-Map,$(notdir $@).map -nostartfiles -T $(CURDIR)/../source/linker.ld
+LDFLAGS		= -g $(MACHDEP) -Wl,-Map,$(notdir $@).map -nostartfiles -T $(ROOT_DIR)/linker.ld
 
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
