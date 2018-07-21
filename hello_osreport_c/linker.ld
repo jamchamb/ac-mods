@@ -7,4 +7,5 @@ SECTIONS
                *(.text*);
         }
 
+        OSReport = 0x8005A750;
 }
