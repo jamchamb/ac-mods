@@ -32,16 +32,16 @@ void addString(const char* string, char column, char row, char color) {
  * Hooks call to Debug_mode_output at 0x80404E24
  */
 void __entry(void *arg1) {
-    OSReport("DEBUG PRINT FUNCTION START");
-
+    // Initialize offset into debug print2 buffer to 0 each call
     buffer_pos = 0;
 
+    // Add debug printf strings
     addString("Hello world!", 0xC, 0xC, 0x7);
     addString("Even more text!", 0xC, 0xE, 0x7);
 
+    // Set print flag bit to enable debug_print2
     debug_print_flg |= 2;
 
+    // Do the original function call
     Debug_mode_output(arg1);
-
-    OSReport("DEBUG PRINT FUNCTION END");
 }
