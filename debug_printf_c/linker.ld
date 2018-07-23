@@ -20,6 +20,7 @@ SECTIONS
         debug_print2_buffer = 0x81294018;
         debug_print2_count = 0x81294014;
 
+        OSGetTime = 0x8007F6F8;
         OSReport = 0x8005A750;
 
         Debug_mode_output = 0x8039816C;

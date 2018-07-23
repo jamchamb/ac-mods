@@ -35,6 +35,12 @@ void __entry(void *arg1) {
     // Initialize offset into debug print2 buffer to 0 each call
     buffer_pos = 0;
 
+    // Add OSGetTime display
+    char timestr[40];
+    int64_t time = OSGetTime();
+    snprintf(timestr, sizeof(timestr), "time: %lld", time);
+    addString(timestr, 1, 26, 0x6);
+
     // Add debug printf strings
     addString("Hello world!", 0xC, 0xC, 0x7);
     addString("Even more text!", 0xC, 0xE, 0x7);
