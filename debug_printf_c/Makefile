@@ -12,9 +12,9 @@ endif
 
 include $(DEVKITPPC)/gamecube_rules
 
-%.patch: %.dol
+%.patch: %.elf
 	@echo "extracting code from $(notdir $<)"
-	dd if=$< of=$@ bs=1 skip=8448
+	$(OBJCOPY) -O binary -S $< $@
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -128,7 +128,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-$(OUTPUT).patch: $(OUTPUT).dol
+$(OUTPUT).patch: $(OUTPUT).elf
 $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
 
