@@ -8,8 +8,10 @@
 
 // GameCube functions
 extern void OSReport(char*, ...);
-
 extern int64_t OSGetTime();
+extern void JUTReportConsole(char*);
+extern void JUTReportConsole_f(char*, ...);
+extern void JUTReport(int, int, int, char const *, ...);
 
 // Animal Crossing functions
 extern void Debug_mode_output(void *arg1);

@@ -48,6 +48,13 @@ void __entry(void *arg1) {
     // Set print flag bit to enable debug_print2
     debug_print_flg |= 2;
 
+    // Prints to in-game debug console (press Z with zuru mode enabled)
+    JUTReportConsole("added a console message\n");
+    JUTReportConsole_f("time: %lld\n", time);
+
+    // Prints direct to screen
+    JUTReport(0x20, 0x30, 1, "JUTReport %u", 1337);
+
     // Do the original function call
     Debug_mode_output(arg1);
 }
