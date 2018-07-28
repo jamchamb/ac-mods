@@ -1,4 +1,4 @@
-# Animal Crossing hello world with C
+# Animal Crossing "Hello World" with C
 
 This requires the devkitPro tools to build.
 See <https://devkitpro.org/wiki/Getting_Started> for how to install `devkitpro` and `gamecube-dev`.
@@ -19,6 +19,9 @@ Alternatively, use this command:
 ```console
 $ ac-nesrom-gen --autoheader 80002000 "Mod Name" input.patch output.gci
 ```
+
+Import the GCI save file to a memory card and use the generic NES Console
+item to load the mod.
 
 ## Development
 

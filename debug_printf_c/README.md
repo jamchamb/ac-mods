@@ -45,3 +45,6 @@ Alternatively, use this command:
 ```console
 $ ac-nesrom-gen --autoheader 80002000 "Mod Name" input.patch output.gci
 ```
+
+Import the GCI save file to a memory card and use the generic NES Console
+item to load the mod.
