@@ -9,11 +9,15 @@ With `gamecube-dev` installed, just run `make`. The output will include a `.patc
 
 ### Generating the GameCube save file
 
-[`patcher.py`](https://github.com/jamchamb/ac-nesrom-save-generator) can automatically create
-a GCI file for the `.patch` file with these arguments:
+[`ac-nesrom-gen`](https://github.com/jamchamb/ac-nesrom-save-generator)
+can automatically create a GCI file for the mod patches by reading the
+`gci_build.yaml` config file. If installed, the GCI file will be generated
+when running `make`.
+
+Alternatively, use this command:
 
 ```console
-$ ./patcher.py --autoheader 80002000 --loader "Mod Name" input.patch output.gci
+$ ac-nesrom-gen --autoheader 80002000 "Mod Name" input.patch output.gci
 ```
 
 ## Development

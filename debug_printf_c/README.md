@@ -32,3 +32,16 @@ This requires the devkitPro tools to build.
 See <https://devkitpro.org/wiki/Getting_Started> for how to install `devkitpro` and `gamecube-dev`.
 
 With `gamecube-dev` installed, just run `make`. The output will include a `.patch` file that holds the generated code to patch in.
+
+### Generating the GameCube save file
+
+[`ac-nesrom-gen`](https://github.com/jamchamb/ac-nesrom-save-generator)
+can automatically create a GCI file for the mod patches by reading the
+`gci_build.yaml` config file. If installed, the GCI file will be generated
+when running `make`.
+
+Alternatively, use this command:
+
+```console
+$ ac-nesrom-gen --autoheader 80002000 "Mod Name" input.patch output.gci
+```
