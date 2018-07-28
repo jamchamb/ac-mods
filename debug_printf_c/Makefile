@@ -32,6 +32,7 @@ SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=
 GCI_BUILD       :=      gci_build.yaml
+GCI_NAME        :=      "printf"
 
 #---------------------------------------------------------------------------------
 # GCI build binary
@@ -141,7 +142,7 @@ ifndef RG_PATH
 	$(error "install ac-nesrom-gen to generate .gci files")
 endif
 	@echo "creating GCI save file from patch ... $(notdir $@)"
-	@cd $(ROOT_DIR); $(ROMGEN) -y $(GCI_BUILD) "printf" /dev/null $@
+	@cd $(ROOT_DIR); $(ROMGEN) -y $(GCI_BUILD) $(GCI_NAME) /dev/null $@
 
 $(OUTPUT).patch: $(OUTPUT).elf
 $(OUTPUT).dol: $(OUTPUT).elf

@@ -1,0 +1,17 @@
+##################################
+# ac-nesrom-gen GCI build config #
+##################################
+
+# loader settings
+settings:
+    jut_console: true
+
+# patch definitions
+patches:
+
+  # main code
+  - target: 0x80002000
+    file: hello_osreport_c.patch
+    flags:
+      # run this patch after loading
+      jump: true
