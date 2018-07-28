@@ -1,0 +1,18 @@
+##################################
+# ac-nesrom-gen GCI build config #
+##################################
+
+# loader settings
+settings:
+    jut_console: false
+
+# patch definitions
+patches:
+
+  # hook patch
+  - target: 0x80404E24
+    bytes: '4BBFD1DD'
+
+  # main code
+  - target: 0x80002000
+    file: debug_printf_c.patch

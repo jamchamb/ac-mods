@@ -12,21 +12,32 @@ endif
 
 include $(DEVKITPPC)/gamecube_rules
 
+#---------------------------------------------------------------------------------
+# rules for generating .patch and .gci files
+#---------------------------------------------------------------------------------
 %.patch: %.elf
-	@echo "extracting code from $(notdir $<)"
-	$(OBJCOPY) -O binary -S $< $@
+	@echo "extracting code from $(notdir $<) ... $(notdir $@)"
+	@$(OBJCOPY) -O binary -S $< $@
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
 # BUILD is the directory where object files & intermediate files will be placed
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
+# GCI_BUILD is the GCI patch builder YAML config
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=
+GCI_BUILD       :=      gci_build.yaml
+
+#---------------------------------------------------------------------------------
+# GCI build binary
+#---------------------------------------------------------------------------------
+ROMGEN  := ac-nesrom-gen
+RG_PATH := $(shell command -v $(ROMGEN) 2>/dev/null)
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -112,9 +123,9 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol $(OUTPUT).patch
+	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol $(OUTPUT).patch $(OUTPUT).gci
 #---------------------------------------------------------------------------------
-run:	
+run:
 	$(DEVKITPRO)/emulators/gcube/gcube $(OUTPUT).dol
 
 #---------------------------------------------------------------------------------
@@ -122,12 +133,16 @@ else
 
 DEPENDS	:=	$(OFILES:.o=.d)
 
-# patchfile: patch-test.dol
-# 	dd if=patch-test.dol of=patchfile skip=8448 bs=1
-
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
+$(OUTPUT).gci: $(OUTPUT).patch
+ifndef RG_PATH
+	$(error "install ac-nesrom-gen to generate .gci files")
+endif
+	@echo "creating GCI save file from patch ... $(notdir $@)"
+	@cd $(ROOT_DIR); $(ROMGEN) -y $(GCI_BUILD) "printf" /dev/null $@
+
 $(OUTPUT).patch: $(OUTPUT).elf
 $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
